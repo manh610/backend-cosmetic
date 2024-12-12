@@ -167,11 +167,17 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public OrderModel create(OrderModel orderModel) {
 		try {
+			log.warn("test");
 			OrderProduct orderEntity = ModelMapper.map(orderModel, OrderProduct.class);
-			if(orderEntity == null || orderEntity.getId() == null)
+			if(orderEntity == null || orderEntity.getId() == null){
+				log.warn("test1");
+
 				return null;
+
+			}
 			orderEntity.setOrderDate(LocalDateTime.now());
 			if(StringUtils.isNullOrEmpty(orderModel.getPaymentId()) || orderModel.getDeliveryType() == EDeliveryType.GTN) {
+				log.warn("test2");
 				orderEntity.setPayment(false);
 				orderEntity.setStatus(EStatus.WAIT_CONFIRM);
 			}else {
@@ -179,20 +185,26 @@ public class OrderServiceImpl implements OrderService{
 				orderEntity.setStatus(EStatus.PREPARE);
 			}
 			Discount discount = discountRepository.checkDiscountByUser(orderEntity.getDiscountId(), orderEntity.getUserId());
-			if(discount == null || discount.getId() == null)
-				return null;
-			
+			if(discount == null || discount.getId() == null) {
+				log.warn("testDiscount");
+//					return null;
+			}
+
 			List<orderProductItemResponse> rs = orderModel.getProductItem();
 			for(orderProductItemResponse item : rs) {
 				ProductItem productItemCheck = productItemRepository.checkExist(item.getProductItemId());
-				if(productItemCheck == null || productItemCheck.getId() == null)
-					return null;
+				if(productItemCheck == null || productItemCheck.getId() == null){
+					log.warn("test3");
+//					return null;
+				}
 			}
-			
+
 			OrderModel result = ModelMapper.map(orderRepository.save(orderEntity), OrderModel.class);
-			if (result == null)
+			if (result == null) {
+				log.warn("test4");
 				return null;
-			
+			}
+
 			for(orderProductItemResponse item : rs) {
 				OrderItem orderItemEntity = new OrderItem();
 				orderItemEntity.setOrderId(result.getId());

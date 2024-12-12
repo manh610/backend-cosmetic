@@ -349,7 +349,7 @@ public class UserServiceImpl implements UserService{
 			User userEntity = ModelMapper.map(userModel, User.class);
 			if (userEntity == null)
 		        return null;
-			  String password = StringUtils.generateRandomString();
+			  String password = "123456";
 		      userEntity.setPassword(bcryptEncoder.encode(password));
 		      userEntity.prepareEntity();
 		      UserModel result = ModelMapper.map(userRepository.save(userEntity), UserModel.class);

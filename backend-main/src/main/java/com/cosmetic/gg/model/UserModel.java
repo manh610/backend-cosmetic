@@ -35,7 +35,7 @@ public class UserModel extends BaseModel{
 	private String username;
 	
 	@Pattern(
-			regexp = "(^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,30}$)",
+			regexp = "^(?=.*.{6,}).*$\n",
 			message = "Password must contain character, number, special character _-. and max length 50 characters")
 	private String password = null;
 	
